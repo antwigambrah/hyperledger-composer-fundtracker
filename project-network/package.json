@@ -1,0 +1,22 @@
+{
+  "name": "project-network",
+  "version": "0.0.1",
+  "description": "Final year project ",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "author": "antwigambrah",
+  "email": "gambrahantwi23@gmail.com",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "composer-admin": "latest",
+    "composer-client": "latest",
+    "composer-common": "latest",
+    "composer-connector-embedded": "latest",
+    "chai": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}

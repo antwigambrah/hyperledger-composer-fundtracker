@@ -26,7 +26,12 @@
     "@adonisjs/lucid": "^5.0.2",
     "mysql": "github:mysqljs/mysql"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "composer-admin": "latest",
+    "composer-client": "latest",
+    "composer-common": "latest",
+    "composer-connector-embedded": "latest"
+   },
   "autoload": {
     "App": "./app"
   }

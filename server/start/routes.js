@@ -15,6 +15,17 @@
 
 const Route = use('Route')
 
+/**
+ * 
+ */
 Route.get('/', ({ request }) => {
   return { greeting: 'The smae is the best' }
 })
+/**
+ * 
+ */
+Route.post('/register','AuthController.register')
+/**
+ * 
+ */
+Route.post('/login','AuthController.login')
