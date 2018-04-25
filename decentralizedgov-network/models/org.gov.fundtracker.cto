@@ -1,0 +1,130 @@
+namespace org.gov.fundtracker
+
+enum Status {
+  o INITIATED
+  o APPROVED
+}
+
+enum FundSource{
+  o GOG 
+   o IGF 
+  o  CFC 
+  o  CIDA
+  o  DDF 
+  o  UDG 
+}
+
+abstract  participant Member{
+  o String firstname
+  o String lastname
+  o String email
+}
+
+participant FundTransferApprover identified by id extends Member {
+  o String id
+  --> MDA MDA optional
+  --> MMDA MMDA optional
+  --> Role Role optional 
+}
+
+
+//mmda
+participant FundReceipient identified by  id {
+  o String id
+  o String name
+  o String email
+  o String receipienttype
+  o String accountnumber
+  o String mobile
+  o String  bank
+  o String tin
+}
+
+//Admin
+asset MMDA identified by id {
+  o String id
+  o String name
+  o String Region
+}
+
+//Admin
+asset MDA identified by id{
+  o String id
+  o String name
+  o String Region optional
+}
+
+
+//MMDA
+asset Fund identified by id{
+  o String id
+  o String name
+  o Double allocation
+  o String accountnumber
+  o String bank
+  --> MMDA MMDA
+}
+
+asset Expense identified by id {
+o String id
+o String description 
+o String cost
+--> Project Project
+}
+//MMDA
+asset Project identified by id{
+  o String id
+  o String name
+  o String objective
+o Double allocation optional
+--> MMDA MMDA optional
+--> Program Program optional
+--> FundReceipient Receipient optional
+o FundSource FundSource optional
+o DateTime StartDate optional
+o DateTime FundReleasedDated optional
+o Status CAGStatus optional
+o Status MMDAStatus optional
+o Status MOFStatus optional
+o Status FundTransferStatus optional
+} 
+
+  
+asset Historian identified by id{
+  o String id
+  o String transactionInvoked optional
+  o String  Participant optional
+  o String initial optional
+  o String  change optional
+  o String projectintial optional 
+  o String projectChange optional 
+  o String projectid optional 
+  o DateTime  timestamp
+}
+//nitro@rex1234
+     
+//MDA
+asset Budget identified by id {
+  o String  id
+  o DateTime year
+  o Double allocation optional
+  o Double GOG optional
+  o Double IGF optional
+  o Double CFC optional
+  o Double CIDA optional
+  o Double DDF optional
+  o Double UDG optional
+  --> MMDA MMDA optional
+}
+
+//MDA
+asset Program identified by id{
+  o String id
+  o String name
+}
+
+//MDA
+asset Role identified by id{
+  o String id
+  o String name
+}

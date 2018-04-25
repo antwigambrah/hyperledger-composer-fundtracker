@@ -1,0 +1,133 @@
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+
+body{
+    background-color: #f8f9fa !important;
+    color:slategrey;
+}
+
+  /*
+  *  General Modal Dialog Styles
+  */
+  .modal-dialog {
+      padding-left: 45px;
+      padding-right: 45px;
+      .modal-header{
+          background-color: #f8f9fa !important;
+      }
+      .modal-footer{
+        .modal-btn{
+          max-width: 70px;
+          min-width: 70px;
+        }
+      }
+  }
+  .feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+  }
+
+  
+  /*
+   * Sidebar
+   */
+  
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100; /* Behind the navbar */
+    padding: 0;
+    background-color:  #ffffff;
+    .sidebar-sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 48px; /* Height of navbar */
+      height: calc(100vh - 48px);
+      padding-top: .5rem;
+      overflow-x: hidden;
+      overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+.sidebar-heading {
+  margin-left:13px;
+}
+     
+       .nav-item{
+              margin-left:20px;
+              }
+              .nav-link {
+                padding:5px 10px 5px 10px;
+        font-weight: 500;
+        color: #333;
+        .feather {
+          margin-right: 4px;
+          color: #999;
+        }
+        &:active{
+          color: #007bff;
+        }
+        &:hover{
+          color: inherit;
+        }
+      }
+
+      .log-out-button{
+        margin-top: 100px;
+         margin-right: 30px;
+        margin-left: 30px;
+    }
+      
+    }
+    
+  }
+  
+/*General Card Styles */
+  .card {
+    border-radius: 3px;
+    border-color: transparent;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    .card-header{
+      background-color: white;
+  
+    }
+  }
+
+  /* General Button Styles */
+
+  .btn{
+    border-radius: 3px;
+  }
+
+  .asset-btn{
+    max-width: 100px;
+    min-width: 100px;
+  }
+
+  /*General Form Control Styles */
+
+  .form{
+    .form-control{
+      border-radius: 3px;
+  
+    }
+  }
+
+ /*General Table Styles */
+
+ .table-card{
+.card-body {
+  padding: 0;
+}  
+}
+
+/*Dropdown */
+
+.dropdown-menu{
+  border-color: transparent;
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  margin-right: 10px;
+  border-top-right-radius: 0;
+}
+
+

@@ -24,14 +24,19 @@
     "@adonisjs/framework": "^5.0.4",
     "@adonisjs/ignitor": "^2.0.5",
     "@adonisjs/lucid": "^5.0.2",
-    "mysql": "github:mysqljs/mysql"
+    "composer-admin": "next",
+    "composer-client": "next",
+    "composer-common": "next",
+    "composer-connector-hlfv1": "next",
+    "eslint": "^4.18.1",
+    "mysql": "github:mysqljs/mysql",
+    "nodemon": "^1.17.2",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "composer-admin": "latest",
-    "composer-client": "latest",
-    "composer-common": "latest",
-    "composer-connector-embedded": "latest"
-   },
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  },
   "autoload": {
     "App": "./app"
   }

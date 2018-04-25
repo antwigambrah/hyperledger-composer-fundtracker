@@ -49,7 +49,7 @@ module.exports = {
     serializer: 'lucid',
     model: 'App/Models/User',
     scheme: 'basic',
-    uid: 'email',
+    uid: 'networkid',
     password: 'password'
   },
 
@@ -66,7 +66,7 @@ module.exports = {
     serializer: 'lucid',
     model: 'App/Models/User',
     scheme: 'jwt',
-    uid: 'email',
+    uid: 'networkid',
     password: 'password',
     options: {
       secret: 'self::app.appKey'
