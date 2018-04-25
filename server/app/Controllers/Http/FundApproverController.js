@@ -2,14 +2,25 @@
 /*eslint-disable*/
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
   const identityService=require('../../Services/IdentityService')
-  const authService=require('../../Services/AuthService')
+  const authService=require('../../Services/AuthService').default
 const self = this;
 class FundApproverController {
+  
+  /**
+   * Creates an instance of FundApproverController.
+   * @memberof FundApproverController
+   */
   constructor() {
     self.bizNetworkConnection = new BusinessNetworkConnection();
   }
+
   /**
-   * Create a New Participant Resource
+   * Create a new FundApprover Participant
+   * if id is available in request set id to requestId
+   * if id is abscent set id to 1
+   * Issue Identity to User
+   * Register user with auth service
+   * 
    * @param {request}
    * @param{response}
    * @returns{response}
@@ -23,12 +34,11 @@ class FundApproverController {
     let mmdaId=request.input('mmdaid');
     let mdaId=request.input('mdaid');
 
-      let participantData = {};
       let userIdentity={}
       let user={}
 
     if (request.input('id')) {
-      id=request.input('id');
+      id = parseInt(request.input("id")) + 1;
     }
   
 
@@ -41,89 +51,10 @@ class FundApproverController {
     const serializer = self.bizNetworkConnection.getBusinessNetwork().getSerializer();
 
     const participantExists = await participantRegistry.exists(id);
-
-    // check for initial id
-    if (participantExists) {
-      // Get Participant with Id
-      const existingParticipant = await participantRegistry.get(id);
-      const data = serializer.toJSON(existingParticipant);
-      // Convert Participant of type String to integer and increment
-      id = parseInt(data.id) + 1;
-      // Convert back to String
-      const idNumber = id.toString();
-      const participant = factory.newResource('org.gov.fundtracker', 'FundTransferApprover', idNumber);
-        const Role=factory.newRelationship('org.gov.fundtracker','Role',roleId)
-      
-        participant.id = idNumber;
-        participant.firstname = firstname;
-        participant.lastname=lastname;
-        participant.email=email;
-        participant.Role=Role
-   
-
-        if(mdaId){
-          const MDA=factory.newRelationship('org.gov.fundtracker','MDA',mdaId)
-            participant.MDA=MDA 
-          }else{
-            const MMDA=factory.newRelationship('org.gov.fundtracker','MMDA',mmdaId)
-            participant.MMDA=MMDA 
-
-              //MMDA registry 
-      const mmdaAsset= await assetRegistry.get(mmdaId)
-      var  assetData=serializer.toJSON(mmdaAsset);
-
-          }
-
-  
-
-      // Add Participant To Registry
-      await participantRegistry.add(participant);
-      const newParticipant = await participantRegistry.get(idNumber);
-      participantData = serializer.toJSON(newParticipant);
-
-    const approverParticipant="org.gov.fundtracker.FundTransferApprover#"+idNumber
-
-       // issueIdentity
-       userIdentity = await identityService.issueIdentity({
-        'class':approverParticipant,
-        'firstname':firstname,
-        'lastname':lastname,
-       });
        
-      var roleAsset= await roleRegistry.get(roleId)
-      var  roleData=serializer.toJSON(roleAsset);
-      
-    if (assetData) {
-       // register user with auth service
-      user=await authService.register({
-        firstname:firstname,
-        lastname:lastname,
-        email:email,
-        networkid: userIdentity.userId,
-         participantid:idNumber,
-         mmda:assetData.name,
-        role:roleData.name,
-        password: userIdentity.userSecret,
-      });
-    }else{
-       // register user with auth service
-      user=await authService.register({
-        firstname:firstname,
-        lastname:lastname,
-        email:email,
-        networkid: userIdentity.userId,
-        participantid:idNumber,
-        role:roleData.name,
-        password: userIdentity.userSecret,
-      });
-    }
-     
-
-    } else {
-      const assetRegistry = await self.bizNetworkConnection.getAssetRegistry('org.gov.fundtracker.MMDA');
-      const participant = factory.newResource('org.gov.fundtracker', 'FundTransferApprover',id);
+      const participant = factory.newResource('org.gov.fundtracker', 'FundTransferApprover',id.toString());
       const Role=factory.newRelationship('org.gov.fundtracker','Role',roleId)
-        participant.id = id;
+        participant.id = id.toString();
         participant.firstname = firstname;
         participant.lastname=lastname;
         participant.email=email;
@@ -132,36 +63,32 @@ class FundApproverController {
         if(mdaId){
         const MDA=factory.newRelationship('org.gov.fundtracker','MDA',mdaId)
           participant.MDA=MDA 
-
-
         }else{
           const MMDA=factory.newRelationship('org.gov.fundtracker','MMDA',mmdaId)
           participant.MMDA=MMDA 
-           //MMDA registry 
+           //Get MMDA by id
       var mmdaAsset= await assetRegistry.get(mmdaId)
-      var assetData=serializer.toJSON(mmdaAsset);
+      var mmdaData=serializer.toJSON(mmdaAsset);
         }
- 
-
-    
+       //Add new participant to registry
       await participantRegistry.add(participant);
       // Get Participant with Id
-      const newParticipant = await participantRegistry.get(id);
-      participantData = serializer.toJSON(newParticipant);
-
-      const approverParticipant="org.gov.fundtracker.FundTransferApprover#"+id
+      const newParticipant = await participantRegistry.get(id.toString());
+      var  participantData = serializer.toJSON(newParticipant);
+    
 
        // issueIdentity
        userIdentity = await identityService.issueIdentity({
-        'class':approverParticipant,
+        'class':"org.gov.fundtracker.FundTransferApprover#"+id.toString(),
         firstname:firstname,
         lastname:lastname,
        });
 
+       //Get Role By Id
      var roleAsset= await roleRegistry.get(roleId)
-      var  roleData=serializer.toJSON(roleAsset);
+      var roleData=serializer.toJSON(roleAsset);
 
-       if (assetData) {
+       if (mmdaData) {
        // register user with auth service
       user=await authService.register({
         firstname:firstname,
@@ -169,7 +96,7 @@ class FundApproverController {
         email:email,
         networkid: userIdentity.userId,
         participantid:id,
-        mmda:assetData.name,
+        mmda:mmdaData.name,
         role:roleData.name,
         password: userIdentity.userSecret,
       });
@@ -186,7 +113,7 @@ class FundApproverController {
       });
     }
 
-    }
+
 
     return response.ok({
       'participant':participantData,
@@ -194,11 +121,15 @@ class FundApproverController {
     });
   }
 
-
-async approveProject({response,request}){
-  
-}
-  async all({ response }) {
+/**
+ * Get All FundApprovers
+ * Include MMDA,MDA,ROLE,
+ * 
+ * @param {any} { response } 
+ * @returns response 
+ * @memberof FundApproverController
+ */
+async all({ response }) {
    await self.bizNetworkConnection.connect("admin@decentralizedgov-network");
     let approverRegistry = await self.bizNetworkConnection.getParticipantRegistry(
       "org.gov.fundtracker.FundTransferApprover"
@@ -261,8 +192,14 @@ async approveProject({response,request}){
    
     return response.ok(results);
   }
-
-  async getById({request,response,params,auth}){
+/**
+ * Get FundApprover By Id
+ * 
+ * @param {any} {request,response,params,auth} 
+ * @returns response
+ * @memberof FundApproverController
+ */
+async getById({request,response,params,auth}){
     const user= await auth.getUser();
       await self.bizNetworkConnection.connect('admin@decentralizedgov-network');
     const ParticipantRegistry = await self.bizNetworkConnection.getParticipantRegistry('org.gov.fundtracker.FundTransferApprover');
@@ -276,29 +213,7 @@ async approveProject({response,request}){
     return response.ok(data)
 
   }
-  
-  async initiateProject({request,response}){
-    let projectId=request.input('projectId');
-    let mmdaId=request.input('mmdaId')
 
-      await self.bizNetworkConnection.connect('admin@decentralizedgov-network');
-
-    let serializer =  self.bizNetworkConnection.getBusinessNetwork().getSerializer();
-
-let resource = serializer.fromJSON({
-  '$class': 'org.gov.fundtracker.initiateProject',
-  'project': {
-    '$class': 'org.gov.fundtracker.Project',
-    'Id':projectId,
-    'MMDA':'resource:org.gov.fundtracker#MMDA'+mmdaId
-  }
-});
-
-    let transaction=await this.bizNetworkConnection.submitTransaction(resource);
-    let data=serializer.toJSON(transaction)
-
-    return response.ok(data)
-  }
 }
 
 module.exports = FundApproverController;

@@ -5,10 +5,20 @@ const assetService =require('../Services/AssetService')
 const uuid=require('uuid/v4')
 var self=this;
 class HistorianService {
+    /**
+     * Creates an instance of HistorianService.
+     * @memberof HistorianService
+     */
     constructor(){
         self.bizNetworkConnection = new BusinessNetworkConnection(); 
     }
-    
+/**
+ * Create New Historian
+ * 
+ * @param {any} historian 
+ * @returns 
+ * @memberof HistorianService
+ */
 async create(historian){
     let id = uuid();
     await self.bizNetworkConnection.connect("admin@decentralizedgov-network");
@@ -53,7 +63,13 @@ async create(historian){
 
     return assetData
 }
-
+/**
+ * Get Historian By Id
+ * 
+ * @param {any} id 
+ * @returns 
+ * @memberof HistorianService
+ */
 async getById (id){
     await self.bizNetworkConnection.connect("admin@decentralizedgov-network");
     let assetRegistry = await self.bizNetworkConnection.getAssetRegistry('org.gov.fundtracker.Historian');
@@ -66,7 +82,12 @@ async getById (id){
 
     return data;
 }
-
+/**
+ * Update Historian By Id
+ * 
+ * @param {any} id 
+ * @memberof HistorianService
+ */
 async update(id){
     let historian=this.getById(id);
     await self.bizNetworkConnection.connect("admin@decentralizedgov-network");

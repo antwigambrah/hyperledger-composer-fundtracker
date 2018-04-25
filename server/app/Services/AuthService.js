@@ -2,6 +2,12 @@
 const User = use('App/Models/User');
 
 class AuthService {
+  /**
+   * register new USer
+   * 
+   * @param {any} credentials 
+   * @memberof AuthService
+   */
   async register(credentials) {
     const user = new User();
     user.firstname = credentials.firstname;
@@ -16,10 +22,6 @@ class AuthService {
     await user.save();
   }
 
-
-  async logout() {
-
-  }
 }
 
 module.exports = new AuthService();

@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    hello: "Hello",
     loading: false,
     lastInsertId: '',
     isloggedIn: false,
@@ -60,11 +59,11 @@ const store = new Vuex.Store({
     project: {
       name: '',
       program: '',
-      mmda:'',
-      fundsource:'',
+      mmda: '',
+      fundsource: '',
       objective: '',
       allocation: 0,
-      receipient:'',
+      receipient: '',
       expense: []
 
     }

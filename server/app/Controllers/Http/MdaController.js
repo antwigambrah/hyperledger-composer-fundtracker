@@ -49,8 +49,14 @@ async all({ response }) {
       let mdas= await assetService.all(self.networknamespace);
       return response.ok(mdas);
   }
-
-  async getById({ request, response ,params}) {
+/**
+ * Get MDA By Id
+ * 
+ * @param {any} { request, response ,params} 
+ * @returns 
+ * @memberof MdaController
+ */
+async getById({ request, response ,params}) {
     let mda= await assetService.getById(self.networknamespace,params.id);
     return response.ok(mda);
   }

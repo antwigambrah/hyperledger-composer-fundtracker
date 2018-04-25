@@ -58,7 +58,7 @@ class BudgetController {
       asset.MMDA=mmda
       await assetRegistry.add(asset);
       //Get Asset with Id
-      let newAsset = await assetRegistry.get(id);
+      let newAsset = await assetRegistry.get(id.toString());
       assetData = serializer.toJSON(newAsset);
     
     return response.ok(assetData);
