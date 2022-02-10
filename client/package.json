@@ -20,7 +20,7 @@
     "element-ui": "^2.2.1",
     "feather-icons": "^4.7.0",
     "moment": "^2.22.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^7.0.0",
     "sass-loader": "^6.0.7",
     "vue": "^2.5.2",
     "vue-feather-icon": "^1.2.0",
